@@ -1,0 +1,100 @@
+import random
+
+def create_board():
+    """
+    Creates a tic-tac-toe board
+    :return: a 3x3 board
+    """
+    board = [['_' for _ in range(3)] for _ in range(3)]
+    return board
+
+
+def print_board(board):
+    """
+    Prints the tic-tac-toe board
+    :param board: a 3x3 board
+    :return: None
+    """
+    for row in board:
+        print(' '.join(row))
+
+
+def check_win(board):
+    """
+    Checks if someone has won the game
+    :param board: a 3x3 board
+    :return: True if someone has won, False otherwise
+    """
+    # check rows
+    for row in board:
+        if row[0] == row[1] == row[2] and row[0] != '_':
+            return True
+
+    # check columns
+    for i in range(3):
+        if board[0][i] == board[1][i] == board[2][i] and board[0][i] != '_':
+            return True
+
+    # check diagonals
+    if board[0][0] == board[1][1] == board[2][2] and board[0][0] != '_':
+        return True
+    if board[0][2] == board[1][1] == board[2][0] and board[0][2] != '_':
+        return True
+
+    return False
+
+
+def check_valid_move(board, row, col):
+    """
+    Checks if a move is valid
+    :param board: a 3x3 board
+    :param row: row index of the move
+    :param col: column index of the move
+    :return: True if the move is valid, False otherwise
+    """
+    if row < 0 or row > 2 or col < 0 or col > 2:
+        return False
+    if board[row][col] != '_':
+        return False
+    return True
+
+
+def make_move(board, row, col, player):
+    """
+    Makes a move on the board
+    :param board: a 3x3 board
+    :param row: row index of the move
+    :param col: column index of the move
+    :param player: player making the move
+    :return: None
+    """
+    board[row][col] = player
+
+
+def tic_tac_toe():
+    """
+    Plays a game of tic-tac-toe
+    :return: None
+    """
+    board = create_board()
+    print_board(board)
+    player = 'X'
+    while True:
+        row = int(input('Enter row for player {}: '.format(player)))
+        col = int(input('Enter col for player {}: '.format(player)))
+        if not check_valid_move(board, row, col):
+            print('Invalid move!')
+            continue
+        make_move(board, row, col, player)
+        print_board(board)
+        if check_win(board):
+            print('Player {} won!'.format(player))
+            break
+        if player == 'X':
+            player = 'O'
+        else:
+            player = 'X'
+
+
+if __name__ == '__main__':
+    tic_tac_toe()
